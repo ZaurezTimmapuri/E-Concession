@@ -1,0 +1,40 @@
+.text-box-User {
+    top: 120px;   position: fixed;
+    left: 255px;
+    width: 1155px;
+    height: 550px;
+    max-width: calc(100% - 200px); 
+    max-height: calc(100% - 130px);     
+    background-color: #fff; /* White background color, adjust as needed */
+    border-radius: 10px; /* Rounded corners, adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow, adjust as needed */
+    padding: 20px; /* Add padding inside the text box */
+    overflow: auto; /* Add scroll if needed */
+    color: black;
+  }
+
+/* FOR TABLE */
+
+.table-container {
+    margin: 20px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  th {
+    background-color: #f2f2f2;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+  

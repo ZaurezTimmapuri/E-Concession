@@ -1,0 +1,43 @@
+/* SIDE BAR  */
+.sidebar {
+    width: 200px;
+    background-color: #dbdbd4;
+    color: white;
+    padding: 10px;
+    height: 650px;
+  }
+  
+  .sidebar-button {
+    display: block;
+    text-decoration: none;
+    color: black;
+    padding: 10px;
+    transition: background-color 0.3s;
+    /* font-family: Poppins; */
+    font-size: larger;
+  }
+  
+  .sidebar-button:hover {
+    background-color: white;
+  }
+  
+  .sidebar-button:focus {
+    background-color: white;
+  }
+
+  .signout-button {
+    background-color: black;
+    color: white;
+    padding: 10px;
+    width: 200px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .signout-button:hover {
+    background-color: #333;
+  }

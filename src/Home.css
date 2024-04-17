@@ -1,0 +1,151 @@
+
+/* Style the announcement section */
+.announcement-section {
+    background-color:#dbdbd4;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    height: 65px;
+    width: 1000px;
+    margin: auto;
+    border-radius: 50px;
+    position: relative;
+    
+}
+
+/* Style the announcement text */
+.announcement-text {
+    max-width: 1000px;
+    margin: 0 auto;
+    font-size: 21px;
+    color: black;
+}
+
+
+
+
+/* Style the text boxes section */
+.text-boxes {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    padding: 20px;
+    
+    
+}
+
+/* Style the individual text boxes */
+.text-box-out {
+    flex: 0 1 calc(33.33% - 20px); /* Distribute evenly with spacing */
+    background-color: #fff;
+    padding: 0px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    height: 285px;
+    border-radius: 50px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+
+/* Style the map view */
+.map-view {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.map-view iframe {
+    max-width: 100%; /* Ensure the map fits the container width */
+    border: none; /* Remove iframe border */
+}
+
+.footer {
+    background-color:#dbdbd4;
+    color:black;
+    margin-top:85px;
+    text-align: center;
+    padding: 10px 0;
+    position: absolute;
+    width: 100%;
+    font-size: large;
+    position: relative;     
+  }
+  
+
+
+
+  /* Your existing CSS code */
+
+
+/* Style the image section */
+.image-section {
+    background-image: url('./dmcebldg.jpeg') ;  
+    height: 500px; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+}
+
+/* Style the text on the image */
+
+.image-text {
+    color:black;
+    margin-left: 25px;
+    margin-top: -175px;
+}
+
+.image-text h1 {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.image-text p {
+    font-size: 18px;
+    margin: 10px 0;
+    font-family: poppins;
+}
+
+/* Style the sign-up button */
+.signup-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color:black;
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.signup-button:hover {
+    background-color:#dbdbd4;
+}
+
+.heading{
+    text-align: left;
+    font-size: xx-large;
+    font-weight: bold;
+}
+
+.heading-notice{
+    text-align: center;
+    font-weight: bold;
+    font-size: x-large;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.notice-content{
+    text-align: center;
+    font-weight: bold;
+    font-size: larger;   
+}
+
+a {
+    color: black; /* Set link color to black */
+    text-decoration: none; /* Remove underline */
+  }

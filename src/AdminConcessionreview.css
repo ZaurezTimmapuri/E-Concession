@@ -1,0 +1,17 @@
+  /* TEXT BOX */
+
+  .text-box-Admin {
+ 
+    top: 100px;   position: fixed;
+    left: 255px;
+    width: 1155px;
+    height: 1111px;
+    max-width: calc(100% - 200px); 
+    max-height: calc(100% - 130px);     
+    background-color: #fff; /* White background color, adjust as needed */
+    border-radius: 10px; /* Rounded corners, adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow, adjust as needed */
+    padding: 20px; /* Add padding inside the text box */
+    overflow: auto; /* Add scroll if needed */
+    color: black;
+  }

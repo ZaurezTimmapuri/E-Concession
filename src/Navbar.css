@@ -1,0 +1,47 @@
+.bgcolor{
+    background-color: aqua !important
+}
+
+ul, li {
+list-style: none;
+margin: 0;
+padding: 0;
+}
+
+/* Style the navigation bar */
+.navbar {
+background-color:#dbdbd4;
+display: flex;
+justify-content: space-between;
+align-items: center;
+padding: 10px 20px;
+}
+
+/* Style the logo */
+.logo img {
+max-width: 380px;
+color:black; /* Adjust the size of your logo as needed */
+}
+.Center{
+    text-align: center;
+    color: black;
+    font-size: x-large;
+}
+/* Style the menu items */
+.menu li {
+display: inline;
+margin-left: 20px;
+}
+
+/* Style the menu links */
+.menu a {
+text-decoration: none;
+color: black ;
+font-weight: italic;
+font-size: 16px;
+transition: color 0.3s;
+}
+
+.menu a:hover {
+color: white; /* Change the color on hover as desired */
+}

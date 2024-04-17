@@ -1,0 +1,31 @@
+.text-box {
+    flex: 0 1 calc(33.33% - 20px); /* Distribute evenly with spacing */
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    border-radius: 50px;
+    padding-left: 275px;
+   
+}
+.text-box p {
+    margin: 0;
+    font-size: 16px;
+    text-align: center;
+}
+.center{
+    text-align: center;
+    margin: 0;
+    font-size:xx-large;
+    color:black;
+}
+
+.image-section2 {
+    background-image: url('https://content3.jdmagicbox.com/comp/navi_mumbai/95/022p8900095/catalogue/datta-meghe-college-of-engineering-airoli-navi-mumbai-colleges-ko3xi730tr.jpg') ;  
+    height: 500px; 
+    background-repeat: no-repeat;
+    background-size: cover;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    text-align: left;
+}

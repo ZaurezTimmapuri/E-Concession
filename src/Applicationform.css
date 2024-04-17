@@ -1,0 +1,102 @@
+/* DURATION OF PASS */
+
+  .radio {
+    display: block; /* Set labels to display as blocks (one below the other) */
+    margin-bottom: 5px;
+  }
+  
+  .radiodiv {
+    display: flex; /* Display radio button and label elements in a row */
+    align-items: center;
+    margin-right: 10px; /* Add spacing between radio buttons */
+  }
+  
+  .radiodiv input[type="radio"] {
+    margin-right: 5px; /* Add spacing between radio button and label */
+  }
+
+
+   /* TEXT BOX */
+
+   .text-box-application {
+ 
+    top: 120px;   position: fixed;
+    left: 255px;
+    width: 1155px;
+    height: 550px;
+    max-width: calc(100% - 200px); 
+    max-height: calc(100% - 130px);     
+    background-color: #fff; /* White background color, adjust as needed */
+    border-radius: 10px; /* Rounded corners, adjust as needed */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Box shadow, adjust as needed */
+    padding: 20px; /* Add padding inside the text box */
+    overflow: auto; /* Add scroll if needed */
+    color: black;
+  }
+
+  h1{
+    margin-bottom: 10px; /* Spacing below the main heading */
+    text-align: center;
+  }
+
+  .alignment{
+    width: 70%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    /* display: flex;
+    flex-direction: column; 
+    align-items: flex-start;  */
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px; /* Spacing below each label */
+  }
+  
+  
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+
+  
+  input[type="file"] {
+    width: 70%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  /* BUTTON */
+
+  .button-container-application {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px; /* Adjust spacing between buttons and textarea */
+  }
+  
+
+  .next-button-application {
+    padding: 10px 20px;
+    margin: 0 10px; /* Adjust spacing between buttons */
+  }
+  
+
+  .next-button-application {
+    background-color: #333; /* Dark color, adjust as needed */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .next-button-academic:hover {
+    background-color: #3E8E41; /* Hover color, adjust as needed */
+  }
