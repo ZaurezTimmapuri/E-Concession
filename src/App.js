@@ -5,7 +5,7 @@ import Signup from './Signup'
 import Aboutus from './Aboutus'
 import Contactus from './Contactus'
 import Login from './Login'
-import UserVerify from './UserVerify'
+import Updateprofile from './UpdateProfile'
 import Profileinformation from './Profileinformation'
 import Applicationform from './Applicationform'
 import Status from './Status'
@@ -30,11 +30,11 @@ export default function App() {
       <Route path='/About us' element={<Aboutus/>}></Route>
       <Route path='/Contact us' element={<Contactus/>}></Route>
       <Route path='/Profileinformation' element={<Profileinformation/>}></Route>
+      <Route path='/UpdateProfile' element={<Updateprofile/>}></Route>
       <Route path='/Applicationform' element={<Applicationform/>}></Route>
       <Route path='/Status' element={<Status/>}></Route>
       <Route path='/UserDash' element={<UserDash/>}></Route>
       <Route path='/AdminDash' element={<AdminDash/>}></Route>
-      <Route path='/UserVerify' element={<UserVerify/>}></Route>
       <Route path='/AdminProfiles' element={<AdminProfiles/>}></Route>
       <Route path='/AdminConcessionapp' element={<AdminConcessionapp/>}></Route>
       <Route path='/AdminConcessionreview' element={<AdminConcessionreview/>}></Route>

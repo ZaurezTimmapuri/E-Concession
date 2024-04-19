@@ -1,11 +1,80 @@
-import React from 'react';
+import React , { useState , useEffect }from 'react';
 import './Status.css';
 import './Sidebar.css'
 import { Link, useNavigate } from 'react-router-dom';
-import { fireapp } from './firebase'; // Assuming `fireapp` is your Firebase app instance
+import { fireapp , firestore } from './firebase'; // Assuming `fireapp` is your Firebase app instance
 
 function Status() {
   const navigate = useNavigate();
+  const [grNumber, setGrNumber] = useState('');
+  const [comment, setComment] = useState('');
+  const [accept, setAccept] = useState(0); // default value 0
+  const [reject, setReject] = useState(0); // default value 0
+  const [toShow, setToShow] = useState(0); // default value 0
+
+  const uid = fireapp.auth().currentUser ? fireapp.auth().currentUser.uid : null;
+
+  useEffect(() => {
+    const checkVerification = async () => {
+      const user = fireapp.auth().currentUser;
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await fireapp.firestore().collection('users').doc(uid).get();
+        const isVerified = userDoc.data().is_verified;
+        const userData = userDoc.data();
+        setGrNumber(userData.grNumber); // Update grNumber state with grNumber field
+        if (isVerified !== 1) {
+          alert('You are not verified to access this page.');
+          navigate('/UserDash'); // Redirect to home page or any other page
+        }
+      }
+    };
+
+    checkVerification();
+
+    const fetchData = async () => {
+      if (!uid) return; // Exit early if uid is null
+      try {
+        const docRef = await firestore.collection('Applications').doc(uid).get();
+        if (docRef.exists) {
+          const data = docRef.data();
+          setAccept(data.accept || 0);
+          setReject(data.reject || 0);
+          setToShow(data.to_show || 0);
+          setComment(data.comment || '');
+        } else {
+          console.log('No such document!');
+        }
+      } catch (error) {
+        console.error('Error fetching document: ', error);
+      }
+    };
+    fetchData();
+    // Cleanup function to unsubscribe from the listener when component unmounts
+    return () => {};
+
+
+
+  }, [navigate] , [firestore, uid]);
+
+
+  let verificationStatus;
+  if (reject === 1) {
+    verificationStatus = 'Rejected';
+  } else if (accept === 1) {
+    verificationStatus = 'Accepted';
+  } else if (toShow === 1) {
+    verificationStatus = 'Ongoing';
+  } else {
+    verificationStatus = 'Not specified';
+  }
+
+  const handleReapply = () => {
+    alert('Your are re-applying Concession Application!')
+    navigate('/Applicationform');
+  };
+
+
 
   // Function to handle signout
   const handleSignOut = async () => {
@@ -28,11 +97,8 @@ function Status() {
       <Link to="/UserDash" className="sidebar-button">
         Dashboard 
       </Link>
-      <Link to="/Profileinformation" className="sidebar-button">
+      <Link to="/UpdateProfile" className="sidebar-button">
         Update Profile 
-      </Link>
-      <Link to="/UserVerify" className="sidebar-button">
-        Verification Status
       </Link>
       <Link to="/Applicationform" className="sidebar-button">
         Application Form
@@ -40,9 +106,12 @@ function Status() {
       <Link to="/Status" className="sidebar-button">
         Concession Status
       </Link>
-      <button type="button" className="signout-button" onClick={handleSignOut}>
+      <Link to="/"> 
+        <button type="submit"  className="signout-button" >Sign out</button>
+      </Link>
+      {/* <button type="button" className="signout-button" onClick={handleSignOut}>
         Sign out
-      </button>
+      </button> */}
 
       <div className="text-box-Status">
         <h1>Application Status</h1>
@@ -57,21 +126,24 @@ function Status() {
           </thead>
           <tbody>
             <tr>
-              <td style={{ width: '375px', border: '3px solid black', height: '70px', textAlign: 'center' }}>2241481321</td>
-              <td style={{ width: '375px', border: '3px solid black', height: '70px', textAlign: 'center', color: 'green' }}>In Progress</td>
+              <td style={{ width: '375px', border: '3px solid black', height: '70px', textAlign: 'center' }}>{grNumber}</td>
+              <td style={{ width: '375px', border: '3px solid black', height: '70px', textAlign: 'center', color: 'green' }}>{verificationStatus}</td>
               <td style={{ width: '375px', border: '3px solid black', height: '70px', textAlign: 'center' }}>
-                  <button onClick={handleViewpass} style={{ backgroundColor: 'green', color: 'white', margin: '10px', padding: '15px' }}>
-                    Redeem
-                  </button>
-                <Link to="/Applicationform">
-                  <button style={{ backgroundColor: 'red', color: 'white', padding: '15px' }}>
-                    Reapply
-                  </button>
-                </Link>
+              {accept === 1 && (
+                    <button onClick={handleViewpass} style={{ backgroundColor: 'green', color: 'white', margin: '10px', padding: '15px' }}>Redeem</button>
+                  )}
+                  {reject === 1 && (
+                    <button onClick={handleReapply} style={{ backgroundColor: 'red', color: 'white', padding: '15px' }} >Reapply</button>
+                  )}
+                  {toShow === 1 && (
+                    <p>Waiting.....</p>
+                  )}
               </td>
             </tr>
           </tbody>
         </table>
+
+        <p className="textbox-header-User-status">Admin Comments :  {comment} </p>
       </div>
     </div>
   );

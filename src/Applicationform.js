@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { Link , useNavigate} from 'react-router-dom';
 import { fireapp } from './firebase';
 import 'firebase/storage';
@@ -18,6 +18,31 @@ function Applicationform() {
 
 
   const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const checkVerification = async () => {
+      const user = fireapp.auth().currentUser;
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await fireapp.firestore().collection('users').doc(uid).get();
+        const isVerified = userDoc.data().is_verified;
+        const userData = userDoc.data();
+        setName(userData.firstName); // Update Name state with firstname field
+        setGrNumber(userData.grNumber); // Update grNumber state with grNumber field
+        if (isVerified !== 1) {
+          alert('You are not verified to access this page.');
+          navigate('/UserDash'); // Redirect to home page or any other page
+        }
+      }
+    };
+
+    checkVerification();
+  }, [navigate]);
+
+
+
+
 
   const handleGrNumberInput = (e) => {
     const inputValue = e.target.value.toUpperCase(); // Convert to uppercase
@@ -54,7 +79,11 @@ function Applicationform() {
             duration:selectedDuration,
             Type: typeOfPass,
             gender:gender,
-            destination : Destination
+            destination : Destination,
+            to_show:1,
+            comment:'',
+            reject:0,
+            accept:0
           });};
 
      // Reference to Firebase Storage
@@ -108,16 +137,51 @@ function Applicationform() {
 
   };
 
+  const stations = [
+    "Airoli", "Ambarnath", "Ambivli", "Andheri", "Asangaon", "Atgaon", "Badlapur", 
+    "Bandra", "Bhandup", "Bhayander", "Bhivpuri Road", "Boisar", "Borivali", "Byculla", 
+    "CBD Belapur", "Charni Road", "Chembur", "Chinchpokli", "Churchgate", "Cotton Green", 
+    "Currey Road", "Dadar", "Dahanu Road", "Dahisar", "Diva", "Dockyard Road", "Dolavli", 
+    "Dom...", "Ghansoli", "Ghatkopar", "Goregaon", "Govandi", "Grant Road", "GTB Nagar", 
+    "Jogeshwari", "Juinagar", "Kalwa", "Kalyan", "Kandivali", "Kanjurmarg", "Karjat", 
+    "Kasara", "Kelavali", "Kelve Road", "Khadavli", "Khardi", "Khar Road", "Khopoli", 
+    "King's Circle", "Kopar Khairane", "Lower Kopar", "Lower Parel", "Lowjee", 
+    "Mahalaxmi", "Mahim", "Malad", "Mankhurd", "Marine Lines", "Masjid", "Matunga", 
+    "Matunga Road", "Mira Road", "Mulund", "Mumbra", "Mumbai CST", "Mumbai Central", 
+    "Naigaon", "Nahur", "Nala Sopara", "Neral", "Nerul", "Palasdari", "Palghar", 
+    "Parel", "Panvel", "Prabhadevi", "Reay Road", "Rabale", "Ram Mandir", "Sandhurst Road", 
+    "Sanpada", "Santa Cruz", "Saphale", "Sewri", "Shahad", "Shelu", "Sion", "Takurli", 
+    "Thakurli", "Thane", "Tilak Nagar", "Titwala", "Turbhe", "Ulhasnagar", "Umroli", 
+    "Vaitarna", "Vangaon", "Vasai Road", "Vashi", "Vasind", "Vidyavihar", "Vikhroli", 
+    "Vile Parle", "Virar", "Vitthalwadi", "Wadala Road", "Wadala", "Wadala Road", 
+    "Andheri", "Goregaon", "Kandivali", "Khar Road", "Malad", "Santacruz", "Vile Parle", 
+    "Chunabhatti", "Dadar", "G.T.B. Nagar", "Govandi", "King's Circle", "Mankhurd", 
+    "Panvel", "Seawoods - Darave", "Belapur CBD", "Khandeshwar", "Kharghar", 
+    "Mansarovar", "Nerul", "Seawoods - Darave", "Turbhe", "Vashi"
+  ];
+
+  stations.sort();
+  const stationOptions = stations.map((station, index) => (
+    <option key={index} value={station}>{station}</option>
+  ));
+
+
+  const handleSignOut = async () => {
+    try {
+      await fireapp.auth().signOut(); // Sign out the user
+      navigate('/'); // Navigate to the home page after signout
+    } catch (error) {
+      console.error('Sign out failed:', error.message);
+    }
+  };
+
   return (
     <div className="sidebar">
       <Link to="/UserDash" className="sidebar-button">
         Dashboard
       </Link>
-      <Link to="/Profileinformation" className="sidebar-button">
-        Update profile
-      </Link>
-      <Link to="/UserVerify" className="sidebar-button">
-        Verification Status
+      <Link to="/UpdateProfile" className="sidebar-button">
+        Update Profile
       </Link>
       <Link to="/Applicationform" className="sidebar-button">
         Application Form
@@ -125,38 +189,38 @@ function Applicationform() {
       <Link to="/Status" className="sidebar-button">
         Concession Status
       </Link>
-      <Link to="/">
-        <button type="submit" className="signout-button">
+      <Link to="/"> 
+        <button type="submit"  className="signout-button" >Sign out</button>
+      </Link>
+      {/* <Link to="/">
+        <button type="submit" className="signout-button" onClick={handleSignOut}>
           Sign out
         </button>
-      </Link>
+      </Link> */}
 
       <div>
         <div className="text-box-application">
           <h1>Application form</h1>
           <form onSubmit={handleSubmit}>
             <div>
-            <label htmlFor="Name">Name: </label>
-                  <input
-                  type="text"
-                  id="Name"
-                  placeholder="Enter First Name"
-                  value={Name}
-                  onChange={(e) => setName(e.target.value)}/>
-                  <label htmlFor="grNumber">GR number: </label>
-                    <input
-                    type="text"
-                    id="grNumber"
-                    placeholder="Enter Your GR Number"
-                    value={grNumber}
-                    onChange={handleGrNumberInput} />
-                    <label htmlFor="Name">Destination: </label>
-                  <input
-                  type="text"
-                  id="Station"
-                  placeholder="Enter From Where you want to apply for Concession"
-                  value={Destination}
-                  onChange={(e) => setDestination(e.target.value)}/>
+             <label htmlFor="Name">Name: </label>
+                  <span className='text-User-application' >{Name}</span>
+                  <br/>
+             <label htmlFor="grNumber">GR number: </label>
+                  <span className='text-User-application'>{grNumber}</span>
+                  <br/>
+              <label htmlFor="Name" className='text-Label-From-application'>From: </label>
+              <select
+                      id="Station"
+                      className="alignment"
+                      placeholder="Enter From Where you want to apply for Concession"
+                      value={Destination}
+                      required
+                      onChange={(e) => setDestination(e.target.value)}>
+                      <option value="">Select Station</option>
+                      {stationOptions}
+                    </select>
+                    <br/>
               <label htmlFor="duration" className="radio">
                 Duration of Pass:
               </label>
@@ -168,6 +232,7 @@ function Applicationform() {
                   value="monthly"
                   checked={selectedDuration === 'monthly'}
                   onChange={handleDurationChange}
+                  required
                 />
                 <label htmlFor="monthly" className="radio">
                   Monthly
@@ -181,6 +246,7 @@ function Applicationform() {
                   value="quarterly"
                   checked={selectedDuration === 'quarterly'}
                   onChange={handleDurationChange}
+                  required
                 />
                 <label htmlFor="quarterly">Quarterly</label>
               </div>
@@ -192,6 +258,7 @@ function Applicationform() {
                 type="file"
                 id="previouspassimage"
                 accept="image/*"
+                required
                 onChange={(e) => handlePhotoChange(e, setPass)}
               />
               <label htmlFor="previouspassimage">Fee Reciept image:</label>
@@ -199,6 +266,7 @@ function Applicationform() {
                 type="file"
                 id="feeimage"
                 accept="image/*"
+                required
                 onChange={(e) => handlePhotoChange(e, setfee)}
               />
                <label htmlFor="previouspassimage">ID card [BACK]:</label>
@@ -206,6 +274,7 @@ function Applicationform() {
                 type="file"
                 id="idimage"
                 accept="image/*"
+                required
                 onChange={(e) => handlePhotoChange(e, setid)}
               />
             </div>

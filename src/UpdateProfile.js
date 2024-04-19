@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState , useEffect } from 'react';
 import { useNavigate} from 'react-router-dom';
 import { fireapp } from './firebase';
 import 'firebase/storage';
-import './Profileinformation.css';
+import './UpdateProfile.css';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-function Personalinformation() {
+function Updateprofile() {
 
   const navigate = useNavigate();
 
@@ -25,6 +25,42 @@ function Personalinformation() {
   const [collegeId, setCollegeId] = useState(null);
   const [feeReceipt, setFeeReceipt] = useState(null);
   const [signature, setSignature] = useState(null);
+
+
+  useEffect(() => {
+    const checkVerification = async () => {
+      const user = fireapp.auth().currentUser;
+      if (user) {
+        const uid = user.uid;
+        const userDoc = await fireapp.firestore().collection('users').doc(uid).get();
+        const isVerified = userDoc.data().is_verified;
+        const userData = userDoc.data();
+        setFirstName(userData.firstName);
+        setLastName(userData.lastName);
+        setMobileNumber(userData.mobileNumber);
+        setAddress(userData.address);
+        setBranchName(userData.branchName);
+        setYear(userData.year);
+        setGrNumber(userData.grNumber);
+        setDivision(userData.division);
+        if (isVerified !== 0) {
+          alert('You are not verified, You cannot access this page!.');
+          navigate('/UserDash'); // Redirect to home page or any other page
+        }
+      }
+    };
+
+    checkVerification();
+  }, [navigate]);
+
+
+
+
+
+
+
+
+
 
 
   const handleGrNumberInput = (e) => {
@@ -127,8 +163,8 @@ function Personalinformation() {
     setFeeReceipt(null);
     setSignature(null);
 
-    alert('Profile created!');
-    navigate('/');
+    alert('Profile Updated!');
+    navigate('/UserDash');
 
   };
 
@@ -142,7 +178,7 @@ function Personalinformation() {
                 <div className="progress-bar"></div>
                </div> */}
 
-            <div className="text-box-Profile-info">
+            <div className="text-box-Profile-info-update">
               <h1>Personal Information</h1>
               <div>
                 <label htmlFor="firstName">First Name: </label>
@@ -151,7 +187,6 @@ function Personalinformation() {
                   id="firstName"
                   placeholder="Enter First Name"
                   value={firstName}
-                  required
                   onChange={(e) => setFirstName(e.target.value)}/> 
                 <label htmlFor="lastName">Last Name:</label>
                   <input
@@ -159,7 +194,6 @@ function Personalinformation() {
                   id="lastName"
                   placeholder="Enter Last Name"
                   value={lastName}
-                  required
                   onChange={(e) => setLastName(e.target.value)} />
                 <label htmlFor="mobileNumber">Mobile Number:</label>
                   <input
@@ -167,9 +201,7 @@ function Personalinformation() {
                   id="mobileNumber"
                   placeholder="Enter Mobile Number"
                   value={mobileNumber}
-                  required
                   onChange={handleNumberInput}/>
-                  
                 <label htmlFor="address">Address:</label>
                   <textarea
                   className="address"
@@ -177,7 +209,6 @@ function Personalinformation() {
                   placeholder="Enter Address"
                   rows="2"
                   value={address}
-                  required
                   onChange={(e) => setAddress(e.target.value)} />
               </div>
               <div>
@@ -193,7 +224,6 @@ function Personalinformation() {
                       id="branchName"
                       className="alignment"
                       value={branchName}
-                      required
                       onChange={(e) => setBranchName(e.target.value)}>
                       <option value="">Select Branch</option>
                       <option value="AI-DS">AI-DS</option>
@@ -211,7 +241,6 @@ function Personalinformation() {
                     id="Year"
                     className="alignment"
                     value={year}
-                    required
                     onChange={(e) => setYear(e.target.value)}>
 
                     <option value="">Select Year</option>
@@ -227,14 +256,12 @@ function Personalinformation() {
                     id="grNumber"
                     placeholder="Enter Your GR Number"
                     value={grNumber}
-                    required
                     onChange={handleGrNumberInput} />
                     <br/>
                   <label htmlFor="admissionDate">Year of Admission:</label>
                     <DatePicker
                     id="admissionDate"
                     selected={admissionDate}
-                    required
                     onChange={(date) => setAdmissionDate(date)}
                     dateFormat="yyyy-MM-dd"/>
                     <br/>
@@ -242,7 +269,6 @@ function Personalinformation() {
                     <select
                       id="Division"
                       className="alignment"
-                      required
                       value={division}
                       onChange={(e) => setDivision(e.target.value)}>
                       <option value="">Select Division</option>
@@ -261,8 +287,7 @@ function Personalinformation() {
                       <input 
                       type="file" 
                       id="photo" 
-                      accept="image/*"
-                      required 
+                      accept="image/*" 
                       onChange={(e) => handleFileChange(e, setPhoto)} />
                     </div>
                     <div>
@@ -271,7 +296,6 @@ function Personalinformation() {
                         type="file" 
                         id="aadharCard" 
                         accept="image/*" 
-                        required
                         onChange={(e) => handleFileChange(e, setAadharCard)} />
                     </div>
                     <div>
@@ -280,7 +304,6 @@ function Personalinformation() {
                         type="file" 
                         id="collegeId" 
                         accept="image/*" 
-                        required
                         onChange={(e) => handleFileChange(e, setCollegeId)} />
                     </div>
                     <div>
@@ -289,7 +312,6 @@ function Personalinformation() {
                         type="file" 
                         id="feeReceipt" 
                         accept="image/*" 
-                        required
                         onChange={(e) => handleFileChange(e, setFeeReceipt)} />
                     </div>
                     <div>
@@ -298,7 +320,6 @@ function Personalinformation() {
                         type="file" 
                         id="signature" 
                         accept="image/*" 
-                        required
                         onChange={(e) => handleFileChange(e, setSignature)} />
                     </div>
 
@@ -314,4 +335,4 @@ function Personalinformation() {
   );
 }
 
-export default Personalinformation;
+export default Updateprofile;

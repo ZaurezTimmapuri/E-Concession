@@ -1,0 +1,136 @@
+  
+ /* PROGRESS BAR  */
+
+ .progress-bar-container {
+    width: 1130px;
+    height: 30px; 
+    /* Adjust the height of the progress bar */
+    background-color: #f0f0f0; 
+    /* Background color of the progress bar container */
+    position: fixed;
+    top: 100px; /* 100px from the top */
+    margin-left: 255px;
+    border-radius: 10px;
+  }
+
+
+  .progress-bar {
+    width: 282.5px;
+    height: 30px;
+    background-color: #4CAF50; 
+    /* Green color, adjust as needed */
+    position: fixed;
+    top: 100px; /* 100px from the top */ 
+    transition: width 0.5s;
+    border-radius: 10px;  
+  }
+  
+
+/* TEXT BOX */
+
+.text-box-Profile-info-update {
+  top: 120px;
+  position: fixed;
+  width: 75%;
+  height: 570px;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  padding: 20px;
+  color: black;
+  max-width: calc(100% - 200px);
+  max-height: calc(100% - 130px);
+  overflow: auto;
+  
+  /* Centering and equal spacing */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+  h1 {
+    margin-bottom: 10px; /* Spacing below the main heading */
+    text-align: center;
+    
+  }
+  
+  select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  label {
+    font-weight: bold;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px; /* Spacing below each label */
+  }
+  
+  input[type="text"] {
+    width: 70%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align children to the left */
+  }
+
+  input[type="number"] {
+    width: 70%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: flex-start; /* Align children to the left */
+  }
+  
+  .address{
+    width: 68%;
+    padding: 5px;
+    position: absolute;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column; /*Stack children vertically*/
+    align-items: flex-start; /* Align children to the left */
+  }
+
+ 
+   /* BUTTONS */ 
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px; /* Adjust spacing between buttons and textarea */
+  }
+  
+  .submit-button,
+  .upload-button {
+    padding: 10px 20px;
+    margin: 0 10px; /* Adjust spacing between buttons */
+  }
+  
+  .submit-button {
+    background-color: red; /* Green color, adjust as needed */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .upload-button {
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .upload-button:hover,
+  .upload-button:hover {
+    background-color: #3E8E41; 
+  }
+  

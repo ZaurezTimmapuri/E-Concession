@@ -23,3 +23,12 @@
     text-align: center;
   }
  
+  .textbox-header-User-status {
+    margin-left: 15px;
+    width: 1105px;
+    margin-top: 45px;
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+  }

@@ -3,6 +3,7 @@
   .radio {
     display: block; /* Set labels to display as blocks (one below the other) */
     margin-bottom: 5px;
+    margin-top: 15px;
   }
   
   .radiodiv {
@@ -99,4 +100,22 @@
   
   .next-button-academic:hover {
     background-color: #3E8E41; /* Hover color, adjust as needed */
+  }
+
+  .text-User-application {
+    color: #3E8E41;
+    width: 1105px;
+    margin-top: 12px;
+    margin-bottom: 15px;
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .text-Label-From-application {
+    color: black;
+    margin-top: 25px;
+    position: relative;
+    font-size: 16px;
+    font-weight: bold;
   }

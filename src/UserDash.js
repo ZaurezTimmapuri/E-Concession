@@ -1,34 +1,10 @@
-import React from 'react'
-import { useState , useEffect } from 'react';
-import { Link} from 'react-router-dom';
-import './UserDash.css'
-import './Sidebar.css'
-import { fireapp , firestore } from './firebase';
+import React, { useState, useEffect } from 'react';
+import { Link  ,  useNavigate} from 'react-router-dom';
+import './UserDash.css';
+import './Sidebar.css';
+import { fireapp, firestore } from './firebase';
 
 function UserDash() {
-
-// const [data, setData] = useState(null);
-// const uid = fireapp.auth().currentUser.uid;
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       try {
-//         const docRef = await firestore.collection('users').doc(uid).get();
-//         if (docRef.exists) {
-//           setData(docRef.data());
-//         } else {
-//           console.log('No such document!');
-//         }
-//       } catch (error) {
-//         console.error('Error fetching document: ', error);
-//       }
-//     };
-//     fetchData();
-//     // Cleanup function to unsubscribe from the listener when component unmounts
-//     return () => {};
-//   }, [firestore, uid]);
-
-
-
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [mobileNumber, setMobileNumber] = useState('');
@@ -38,34 +14,69 @@ function UserDash() {
   const [year, setYear] = useState('');
   const [grNumber, setGrNumber] = useState('');
   const [division, setDivision] = useState('');
+  const [comment, setComment] = useState('');
+  const [accept, setAccept] = useState(0); // default value 0
+  const [reject, setReject] = useState(0); // default value 0
+  const [toShow, setToShow] = useState(0); // default value 0
+  const navigate = useNavigate();
   const uid = fireapp.auth().currentUser ? fireapp.auth().currentUser.uid : null;
 
-useEffect(() => {
-  const fetchData = async () => {
-    if (!uid) return; // Exit early if uid is null
-    try {
-      const docRef = await firestore.collection('users').doc(uid).get();
-      if (docRef.exists) {
-        const data = docRef.data();
-        setFirstName(data.firstName);
-        setLastName(data.lastName);
-        setMobileNumber(data.mobileNumber);
-        setAddress(data.address);
-        setBranchName(data.branchName);
-        setYear(data.year);
-        setGrNumber(data.grNumber);
-        setDivision(data.division);
-      } else {
-        console.log('No such document!');
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!uid) return; // Exit early if uid is null
+      try {
+        const docRef = await firestore.collection('users').doc(uid).get();
+        if (docRef.exists) {
+          const data = docRef.data();
+          setFirstName(data.firstName);
+          setLastName(data.lastName);
+          setMobileNumber(data.mobileNumber);
+          setAddress(data.address);
+          setBranchName(data.branchName);
+          setYear(data.year);
+          setGrNumber(data.grNumber);
+          setDivision(data.division);
+          setAccept(data.accept || 0);
+          setReject(data.reject || 0);
+          setToShow(data.to_show || 0);
+          setComment(data.comment || '');
+        } else {
+          console.log('No such document!');
+        }
+      } catch (error) {
+        console.error('Error fetching document: ', error);
       }
+    };
+    fetchData();
+    // Cleanup function to unsubscribe from the listener when component unmounts
+    return () => {};
+  }, [firestore, uid]);
+
+  let verificationStatus;
+  if (reject === 1) {
+    verificationStatus = 'Rejected';
+  } else if (accept === 1) {
+    verificationStatus = 'Accepted';
+  } else if (toShow === 1) {
+    verificationStatus = 'Ongoing';
+  } else {
+    verificationStatus = 'Not specified';
+  }
+
+  const handleReapply = () => {
+    alert('Your are re-applying your Profile!')
+    navigate('/UpdateProfile');
+  };
+
+
+  const handleSignOut = async () => {
+    try {
+      await fireapp.auth().signOut(); // Sign out the user
+      navigate('/'); // Navigate to the home page after signout
     } catch (error) {
-      console.error('Error fetching document: ', error);
+      console.error('Sign out failed:', error.message);
     }
   };
-  fetchData();
-  // Cleanup function to unsubscribe from the listener when component unmounts
-  return () => {};
-}, [firestore, uid]);
 
 
   return (
@@ -74,11 +85,8 @@ useEffect(() => {
                 <Link to="/UserDash" className="sidebar-button">
                  Dashboard 
                 </Link>
-                <Link to="/Profileinformation" className="sidebar-button">
-                    Update Profile
-                </Link>
-                <Link to="/UserVerify" className="sidebar-button">
-                Verification Status
+                <Link to="/UpdateProfile" className="sidebar-button">
+                Update Profile
                 </Link>
                 <Link to="/Applicationform" className="sidebar-button">
                 Application Form
@@ -86,12 +94,12 @@ useEffect(() => {
                 <Link to="/Status" className="sidebar-button">
                 Concession Status
                 </Link>
-                <Link to="/"> 
+                {/* <Link to="/"> 
                 <button type="submit"  className="signout-button" >Sign out</button>
-                </Link>
-                {/* <button onClick={handleSignOut} className="signout-button"> will be used when dealing with database
+                </Link> */}
+                <button onClick={handleSignOut} className="signout-button">
                 Sign Out
-                </button> */}
+                </button>
                 <div className='text-box-User'>
                 {/* <div>
                         <h1>Welcome</h1>
@@ -152,10 +160,17 @@ useEffect(() => {
       </table>
     </div>
 
-
-
-
-
+    <div>
+    <p className="textbox-header-User">Verification Status : {verificationStatus}</p>
+    </div>
+    <div>
+    <p className="textbox-header-User">Admin Comments :  {comment} </p>
+    </div>
+    {reject === 1 && (
+          <div className='button-container-UserDash'>
+            <button onClick={handleReapply} className="reapply-button">Reapply</button>
+          </div>
+        )}
                 </div>
 
             </div>

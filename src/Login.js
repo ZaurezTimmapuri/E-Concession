@@ -1,23 +1,22 @@
-import React, { useState , useEffect  } from 'react';
-import {fireapp , firestore} from './firebase'
-import "./Login.css"
-import { Link , Navigate  } from 'react-router-dom';
-
+import React, { useState, useEffect } from 'react';
+import { fireapp, firestore } from './firebase';
+import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login() {
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate(); // Use useNavigate instead of useHistory
 
   const handleTogglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   useEffect(() => {
-    fireapp.auth().onAuthStateChanged((user) => {
+    const unsubscribe = fireapp.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
         setIsLoggedIn(true);
@@ -26,16 +25,28 @@ export default function Login() {
         // User is signed out.
         setIsLoggedIn(false);
         setIsAdmin(false);
+        // Redirect to login page after sign-out
+        navigate('/login');
       }
     });
-  }, []);
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [navigate]);
 
   const checkAdminStatus = async (uid) => {
-    const userDoc = await firestore.collection('users').doc(uid).get();
-    if (userDoc.exists && userDoc.data().is_admin === 1) {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
+    try {
+      const userDoc = await firestore.collection('users').doc(uid).get();
+      if (userDoc.exists && userDoc.data().is_admin === 1) {
+        setIsAdmin(true);
+        // Redirect to AdminDash after login if isAdmin
+        navigate('/AdminDash');
+      } else {
+        setIsAdmin(false);
+        // Redirect to UserDash after login if not isAdmin
+        navigate('/UserDash');
+      }
+    } catch (error) {
+      console.error('Error checking admin status:', error);
     }
   };
 
@@ -43,21 +54,12 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const userCredential = await fireapp.auth().signInWithEmailAndPassword(email, password);
-      const user = userCredential.user;
-
-      // Check if user is admin
-      checkAdminStatus(user.uid);
+      await fireapp.auth().signInWithEmailAndPassword(email, password);
     } catch (error) {
       // Handle login errors
       console.error('Login failed:', error.message);
     }
   };
-
-  if (isLoggedIn) {
-    return <Navigate to={isAdmin ? '/AdminDash' : '/UserDash'} />;
-                                    // yes             no
-}
 
   return (
     <div className="login-form">
@@ -91,11 +93,9 @@ export default function Login() {
           </span>
         </div>
         <div>
-          <button type="button">Login</button>
+          <button type="submit">Login</button> {/* Change type to 'submit' */}
         </div>
       </form>
     </div>
   );
 }
-
-
